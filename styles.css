@@ -1,0 +1,410 @@
+﻿:root {
+      color-scheme: light;
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --accent: #2563eb;
+      --brand: #d24688;      /* SaIL pink, used for the primary buttons */
+      --brand-dark: #b93a77;
+      --text: #1d1d1f;
+      --muted: #86868b;
+      --border: #e5e7eb;
+      --surface: #f5f5f7;
+      --danger: #dc2626;
+      --ok: #16a34a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+      min-height: 100vh;
+      display: grid;
+      justify-items: center;
+      align-items: start;
+      align-items: safe center; /* centres when it fits, never clips a tall page */
+      padding: 124px 19px 40px 19px;
+    }
+
+    .app-shell {
+      width: min(800px, 100%);
+      display: grid;
+      gap: 22px;
+      align-content: start;
+    }
+
+    .logo {
+      height: 92px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      margin: 0;
+    }
+
+    /* ------------------------------------------------------------ masthead */
+    .masthead { display: grid; gap: 6px; }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* -------------------------------------------------------------- panels */
+    .panel {
+      background: var(--surface);
+      border-radius: 22px;
+      padding: 20px 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .step-num {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: var(--panel);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      color: var(--muted);
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      display: grid;
+      place-items: center;
+    }
+
+    .panel-head h2 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.1px;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* ------------------------------------------------------------ controls */
+    .field { display: grid; gap: 7px; }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    select {
+      width: 100%;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 13px;
+      cursor: pointer;
+      transition: border-color 120ms ease;
+    }
+
+    select:hover:not(:disabled) { border-color: #d6d6db; }
+    select:disabled { color: var(--muted); cursor: not-allowed; }
+
+    button {
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 120ms ease, box-shadow 120ms ease, transform 80ms ease, opacity 120ms ease;
+    }
+
+    button:active:not(:disabled) { transform: scale(0.99); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-ghost {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-weight: 600;
+    }
+
+    .btn-ghost:hover:not(:disabled) { background: #f1f5f9; }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      background: var(--brand);
+      box-shadow: 0 6px 22px rgba(210, 70, 136, 0.24);
+    }
+
+    .btn-primary:hover:not(:disabled) { background: var(--brand-dark); }
+    .btn-primary:disabled { box-shadow: none; }
+
+    .btn-danger {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      background: var(--danger);
+      box-shadow: 0 6px 22px rgba(220, 38, 38, 0.22);
+    }
+
+    .btn-danger:hover:not(:disabled) { background: #b91c1c; }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .status { font-size: 13px; color: var(--muted); line-height: 1.4; }
+    .status.ok { color: var(--ok); }
+
+    /* Level meter, using the same inset hairline as the room-id pill. */
+    .meter {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--panel);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+
+    .meter > div {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--ok);
+      transition: width 80ms linear;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .check input {
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .check label { font-weight: 400; color: var(--muted); cursor: pointer; }
+
+    /* ----------------------------------------------------------- video bays */
+    .previews {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    figure { display: grid; gap: 8px; }
+
+    /* Let the webcam bay fill the row so both previews line up top and bottom. */
+    .previews figure { grid-template-rows: auto 1fr; }
+    .previews video.cam { aspect-ratio: auto; height: 100%; }
+
+    figcaption {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    video {
+      width: 100%;
+      display: block;
+      border: none;
+      border-radius: 14px;
+      background: #000000;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.16);
+    }
+
+    video.cam { aspect-ratio: 4 / 3; object-fit: cover; }
+    video.mirrored { transform: scaleX(-1); }
+
+    /* ------------------------------------------------------------ recording */
+    .rec-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--danger);
+      flex: none;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+    .timer {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 15px;
+      font-variant-numeric: tabular-nums;
+      background: var(--panel);
+      padding: 9px 16px;
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    }
+
+    .rec-bar .status { margin-left: auto; }
+
+    /* ----------------------------------------------------------------- done */
+    .file-pill {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: var(--panel);
+      padding: 9px 16px;
+      border-radius: 999px;
+      color: var(--muted);
+      word-break: break-all;
+      line-height: 1.4;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      justify-self: start;
+      max-width: 100%;
+    }
+
+    a { color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; }
+    a:hover { text-decoration: underline; }
+
+    /* ---------------------------------------------------------------- trim */
+    .trimbar {
+      position: relative;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      touch-action: none;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .trimbar[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
+    .trim-sel {
+      position: absolute;
+      top: 0; bottom: 0;
+      background: rgba(37, 99, 235, 0.13);
+      border-left: 2px solid var(--accent);
+      border-right: 2px solid var(--accent);
+      pointer-events: none;
+    }
+
+    .trim-handle {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 22px;
+      margin-left: -11px;
+      display: grid;
+      place-items: center;
+      cursor: ew-resize;
+      touch-action: none;
+    }
+
+    .trim-handle::after {
+      content: "";
+      width: 6px;
+      height: 26px;
+      border-radius: 3px;
+      background: var(--accent);
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.28);
+    }
+
+    .trim-handle:hover::after { background: #1d4ed8; }
+
+    .trim-playhead {
+      position: absolute;
+      top: 5px; bottom: 5px;
+      width: 2px;
+      border-radius: 1px;
+      background: var(--text);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .readouts { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .readout {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: var(--panel);
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      white-space: nowrap;
+    }
+
+    .readout strong { color: var(--text); font-weight: 600; }
+
+    /* ---------------------------------------------------------------- error */
+    .error {
+      background: #fef2f2;
+      box-shadow: inset 0 0 0 1px #fecaca;
+      color: #991b1b;
+      padding: 16px 20px;
+      border-radius: 18px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .hidden { display: none !important; }
+
+    /* The canvas reads from these, never the previews. They stay rendered (not
+       display:none) for the whole session so the browser keeps presenting frames
+       even while the setup panel is hidden. */
+    .source {
+      position: fixed;
+      bottom: 0; right: 0;
+      width: 2px; height: 2px;
+      opacity: 0.01;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    canvas#stage { display: none; }
+
+    @media (max-width: 640px) {
+      body { padding: 104px 19px 28px 19px; }
+      .logo { height: 68px; top: 14px; left: 16px; }
+      .panel { padding: 18px 18px; border-radius: 18px; }
+      /* Single column: each bay sizes itself again, so restore the ratio. */
+      .previews { grid-template-columns: 1fr; }
+      .previews video.cam { aspect-ratio: 4 / 3; height: auto; }
+      .rec-bar .status { margin-left: 0; width: 100%; }
+    }

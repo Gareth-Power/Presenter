@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="SaIL.png" />
+  <title>SaIL Presenter</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <img src="SaIL.png" alt="Simulation &amp; Interactive Learning, Guy's &amp; St Thomas' London" class="logo" />
+
+  <div class="app-shell">
+
+    <header class="masthead">
+      <h1>Presenter</h1>
+      <p class="sub">Record your screen with your webcam in the corner.</p>
+    </header>
+
+    <div id="error" class="error hidden"></div>
+
+    <!-- ============ SETUP ============ -->
+    <section id="setup" style="display:grid; gap:22px;">
+
+      <div class="panel">
+        <div class="panel-head">
+          <span class="step-num">1</span>
+          <h2>Camera &amp; microphone</h2>
+        </div>
+
+        <div id="permGate" style="display:grid; gap:14px;">
+          <button id="btnPerm" class="btn-primary" type="button">Enable camera &amp; microphone</button>
+        </div>
+
+        <div id="devicePickers" class="hidden" style="display:grid; gap:16px;">
+          <div class="field">
+            <label for="camSelect">Webcam</label>
+            <select id="camSelect"></select>
+          </div>
+
+          <div class="field">
+            <label for="micSelect">Microphone</label>
+            <select id="micSelect"></select>
+            <div class="meter"><div id="micLevel"></div></div>
+            <p class="note">Speak to confirm the right microphone is picked up.</p>
+          </div>
+
+          <div class="check">
+            <input type="checkbox" id="mirrorChk" />
+            <label for="mirrorChk">Mirror my webcam</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <span class="step-num">2</span>
+          <h2>Screen or window</h2>
+        </div>
+        <div class="row">
+          <button id="btnScreen" class="btn-ghost" type="button">Choose screen&hellip;</button>
+          <span id="screenStatus" class="status">Nothing selected yet.</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <span class="step-num">3</span>
+          <h2>Preview</h2>
+        </div>
+        <div class="previews">
+          <figure>
+            <figcaption>Screen</figcaption>
+            <video id="screenPreview" muted playsinline></video>
+          </figure>
+          <figure>
+            <figcaption>Webcam</figcaption>
+            <video id="camPreview" class="cam" muted playsinline></video>
+          </figure>
+        </div>
+      </div>
+
+      <button id="btnStart" class="btn-primary" type="button" disabled>Begin recording</button>
+    </section>
+
+    <!-- ============ RECORDING ============ -->
+    <section id="recording" class="hidden" style="display:grid; gap:22px;">
+      <div class="panel">
+        <div class="rec-bar">
+          <span class="dot"></span>
+          <span class="timer" id="timer">00:00</span>
+          <span class="status" id="recStatus">Recording&hellip;</span>
+        </div>
+        <figure>
+          <figcaption>Live composite &mdash; this is exactly what gets saved</figcaption>
+          <video id="compositePreview" muted playsinline></video>
+        </figure>
+      </div>
+      <button id="btnStop" class="btn-danger" type="button">Stop recording &amp; download</button>
+    </section>
+
+    <!-- ============ TRIM ============ -->
+    <section id="trim" class="hidden" style="display:grid; gap:22px;">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Trim</h2>
+        </div>
+
+        <figure>
+          <video id="trimVideo" playsinline></video>
+        </figure>
+
+        <div class="trimbar" id="trimBar" aria-disabled="true">
+          <div class="trim-sel" id="trimSel"></div>
+          <div class="trim-playhead" id="trimPlayhead"></div>
+          <div class="trim-handle" id="handleIn" role="slider" tabindex="0" aria-label="Clip start"></div>
+          <div class="trim-handle" id="handleOut" role="slider" tabindex="0" aria-label="Clip end"></div>
+        </div>
+
+        <div class="readouts">
+          <span class="readout">Start <strong id="readIn">0:00.0</strong></span>
+          <span class="readout">End <strong id="readOut">0:00.0</strong></span>
+          <span class="readout">Length <strong id="readLen">0:00.0</strong></span>
+        </div>
+
+        <div class="row">
+          <button id="btnPlaySel" class="btn-ghost" type="button">Play selection</button>
+          <button id="btnResetTrim" class="btn-ghost" type="button">Reset</button>
+          <span id="trimStatus" class="status">Reading the recording&hellip;</span>
+        </div>
+
+        <p class="note">Drag the two handles to set where the clip starts and ends, or click the bar to scrub.</p>
+
+        <div id="exportProgress" class="hidden" style="display:grid; gap:8px;">
+          <div class="meter"><div id="exportBar"></div></div>
+          <p class="note" id="exportNote">Preparing&hellip;</p>
+        </div>
+      </div>
+
+      <button id="btnSave" class="btn-primary" type="button" disabled>Save clip</button>
+      <button id="btnDiscard" class="btn-ghost" type="button" style="justify-self:center;">Discard &amp; start over</button>
+    </section>
+
+    <!-- ============ DONE ============ -->
+    <section id="done" class="hidden" style="display:grid; gap:22px;">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Saved</h2>
+        </div>
+        <p class="status ok" id="doneMsg">Your recording has been downloaded.</p>
+        <p class="note">If the download didn't start, use the link below.</p>
+        <p><a id="manualLink" href="#">Download again</a></p>
+      </div>
+      <button id="btnAgain" class="btn-primary" type="button">Record another</button>
+    </section>
+
+    <canvas id="stage"></canvas>
+    <video id="srcScreen" class="source" muted playsinline></video>
+    <video id="srcCam" class="source" muted playsinline></video>
+  </div>
+
+<script src="app.js"></script>
+</body>
+</html>
+
